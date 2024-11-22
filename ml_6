@@ -1,0 +1,89 @@
+-- Create BRANCH table
+CREATE TABLE BRANCH (
+    BRANCH_NAME VARCHAR(50) PRIMARY KEY, -- Unique branch name
+    CITY VARCHAR(50)                     -- City of the branch
+);
+
+-- Create ACCOUNT table
+CREATE TABLE ACCOUNT (
+    BRANCH_NAME VARCHAR(50),             -- Branch associated with the account
+    ACCOUNT_NO INT PRIMARY KEY,          -- Unique account number
+    BALANCE FLOAT,                       -- Account balance
+    FOREIGN KEY (BRANCH_NAME) REFERENCES BRANCH(BRANCH_NAME) -- Foreign key reference to BRANCH
+);
+
+-- Create DEPOSITOR table
+CREATE TABLE DEPOSITOR (
+    CUSTOMER_NAME VARCHAR(50),           -- Name of the depositor
+    ACCOUNT_NO INT,                      -- Account number of the depositor
+    ADD1 VARCHAR(100),                   -- Address line 1
+    ADD2 VARCHAR(100),                   -- Address line 2
+    CITY VARCHAR(50),                    -- City of the depositor
+    PRIMARY KEY (CUSTOMER_NAME, ACCOUNT_NO), -- Composite primary key
+    FOREIGN KEY (ACCOUNT_NO) REFERENCES ACCOUNT(ACCOUNT_NO) -- Foreign key reference to ACCOUNT
+);
+
+-- Insert data into BRANCH table
+INSERT INTO BRANCH (BRANCH_NAME, CITY)
+VALUES
+('ABC', 'Delhi'),
+('XYZ', 'Mumbai'),
+('PQR', 'Chennai'),
+('DEF', 'Hyderabad'),
+('GHI', 'Kolkata');
+
+-- Insert data into ACCOUNT table
+INSERT INTO ACCOUNT (BRANCH_NAME, ACCOUNT_NO, BALANCE)
+VALUES
+('ABC', 101, 50000),
+('ABC', 102, 75000),
+('XYZ', 103, 30000),
+('XYZ', 104, 45000),
+('PQR', 105, 60000),
+('DEF', 106, 20000),
+('DEF', 107, 35000),
+('GHI', 108, 80000),
+('GHI', 109, 40000),
+('ABC', 110, 90000);
+
+-- Insert data into DEPOSITOR table
+INSERT INTO DEPOSITOR (CUSTOMER_NAME, ACCOUNT_NO, ADD1, ADD2, CITY)
+VALUES
+('Alice', 101, 'Street 1', 'Area A', 'Delhi'),
+('Bob', 102, 'Street 2', 'Area B', 'Delhi'),
+('Charlie', 103, 'Street 3', 'Area C', 'Mumbai'),
+('David', 104, 'Street 4', 'Area D', 'Mumbai'),
+('Eve', 105, 'Street 5', 'Area E', 'Chennai'),
+('Frank', 106, 'Street 6', 'Area F', 'Hyderabad'),
+('Grace', 107, 'Street 7', 'Area G', 'Hyderabad'),
+('Hannah', 108, 'Street 8', 'Area H', 'Kolkata'),
+('Ivy', 109, 'Street 9', 'Area I', 'Kolkata'),
+('Jack', 110, 'Street 10', 'Area J', 'Delhi');
+
+-- Query a: Find out list of customers who have an account at "ABC"
+SELECT CUSTOMER_NAME
+FROM DEPOSITOR
+JOIN ACCOUNT ON DEPOSITOR.ACCOUNT_NO = ACCOUNT.ACCOUNT_NO
+WHERE ACCOUNT.BRANCH_NAME = 'ABC';
+
+-- Query b: Display all the account numbers whose customer name starts with "S"
+SELECT ACCOUNT_NO
+FROM DEPOSITOR
+WHERE CUSTOMER_NAME LIKE 'S%';
+
+-- Query c: Display the depositor's name and address who lives in the city "Mumbai"
+SELECT CUSTOMER_NAME, ADD1, ADD2
+FROM DEPOSITOR
+WHERE CITY = 'Mumbai';
+
+-- Query d: Display the account number and balance of any customer
+SELECT ACCOUNT_NO, BALANCE
+FROM ACCOUNT;
+
+-- Query e: Find out the customer name who has the maximum balance in his/her account at branch "ABC"
+SELECT CUSTOMER_NAME
+FROM DEPOSITOR
+JOIN ACCOUNT ON DEPOSITOR.ACCOUNT_NO = ACCOUNT.ACCOUNT_NO
+WHERE ACCOUNT.BRANCH_NAME = 'ABC'
+ORDER BY ACCOUNT.BALANCE DESC
+LIMIT 1;
