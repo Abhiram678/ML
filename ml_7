@@ -1,0 +1,84 @@
+-- Create STUDENT table
+CREATE TABLE STUDENT (
+    ROLLNO INT PRIMARY KEY,        -- Unique roll number of the student
+    NAME VARCHAR(50),              -- Student name
+    BRANCH VARCHAR(50)             -- Branch of the student
+);
+
+-- Create EXAM table
+CREATE TABLE EXAM (
+    ROLLNO INT,                    -- Roll number of the student
+    SUBJECT_CODE VARCHAR(10),      -- Subject code
+    MARKS_OBTAINED INT,            -- Marks obtained in the exam
+    PAPER_CODE VARCHAR(10),        -- Paper code
+    PRIMARY KEY (ROLLNO, SUBJECT_CODE), -- Composite primary key
+    FOREIGN KEY (ROLLNO) REFERENCES STUDENT(ROLLNO) -- Foreign key reference to STUDENT
+);
+
+-- Create PAPERS table
+CREATE TABLE PAPERS (
+    PAPER_CODE VARCHAR(10) PRIMARY KEY, -- Unique paper code
+    PAPER_SETTER_NAME VARCHAR(50),      -- Name of the paper setter
+    UNIVERSITY VARCHAR(50)             -- University of the paper setter
+);
+
+-- Insert data into STUDENT table
+INSERT INTO STUDENT (ROLLNO, NAME, BRANCH)
+VALUES
+(1, 'Alice', 'Computer-Science'),
+(2, 'Bob', 'Mechanical'),
+(3, 'Charlie', 'Computer-Science'),
+(4, 'David', 'Electrical'),
+(5, 'Eve', 'Civil'),
+(6, 'Frank', 'Computer-Science'),
+(7, 'Grace', 'Mechanical'),
+(8, 'Hannah', 'Electrical'),
+(9, 'Ivy', 'Civil'),
+(10, 'Jack', 'Computer-Science');
+
+-- Insert data into EXAM table
+INSERT INTO EXAM (ROLLNO, SUBJECT_CODE, MARKS_OBTAINED, PAPER_CODE)
+VALUES
+(1, 'CSE-031', 85, 'AIE-034'),
+(2, 'ME-021', 70, 'ME-101'),
+(3, 'CSE-031', 90, 'AIE-034'),
+(4, 'EE-041', 75, 'EE-205'),
+(5, 'CIV-051', 80, 'CIV-301'),
+(6, 'CSE-031', 88, 'AIE-034'),
+(7, 'ME-021', 68, 'ME-101'),
+(8, 'EE-041', 72, 'EE-205'),
+(9, 'CIV-051', 78, 'CIV-301'),
+(10, 'CSE-031', 92, 'AIE-034');
+
+-- Insert data into PAPERS table
+INSERT INTO PAPERS (PAPER_CODE, PAPER_SETTER_NAME, UNIVERSITY)
+VALUES
+('AIE-034', 'Dr. John', 'Delhi University'),
+('ME-101', 'Dr. Smith', 'Mumbai University'),
+('EE-205', 'Dr. Sarah', 'Chennai University'),
+('CIV-301', 'Dr. Miller', 'Kolkata University');
+
+-- Query a: Display the rollno's of all the students whose name starts with the alphabet 'A'
+SELECT ROLLNO
+FROM STUDENT
+WHERE NAME LIKE 'A%';
+
+-- Query b: Display the rollno and marks_obtained for all the students in the "CSE-031" subject code
+SELECT ROLLNO, MARKS_OBTAINED
+FROM EXAM
+WHERE SUBJECT_CODE = 'CSE-031';
+
+-- Query c: Display the paper setter's name who has set the paper "AIE-034"
+SELECT PAPER_SETTER_NAME
+FROM PAPERS
+WHERE PAPER_CODE = 'AIE-034';
+
+-- Query d: Display all the students' names and rollno who belong to "Computer-Science" branch
+SELECT NAME, ROLLNO
+FROM STUDENT
+WHERE BRANCH = 'Computer-Science';
+
+-- Query e: Sort the students by their rollno
+SELECT *
+FROM STUDENT
+ORDER BY ROLLNO;
