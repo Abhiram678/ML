@@ -1,0 +1,37 @@
+create table Department(
+  Dep_ID Int PRIMARY KEY,
+  Name Varchar(50),
+  City Varchar(50));
+
+create table Employee(
+  E_ID Int PRIMARY KEY,
+  Name Varchar(50),
+  Age Int,
+  Address Varchar(50),
+  Salary Int,
+  Dep_ID Int,
+  Foreign key (Dep_ID) references Department(Dep_ID));
+
+INSERT INTO Department (Dep_ID, Name, City) VALUES (1001, 'Human Resources', 'Delhi');
+INSERT INTO Department (Dep_ID, Name, City) VALUES (2, 'Finance', 'Delhi');
+INSERT INTO Department (Dep_ID, Name, City) VALUES (3, 'Engineering', 'Delhi');
+INSERT INTO Department (Dep_ID, Name, City) VALUES (4, 'Sales', 'Chicago');
+
+INSERT INTO Employee (E_ID, Name, Age, Address, Salary, Dep_ID) VALUES (101, 'Alice', 30, '123 Main St', 8000, 1001);
+INSERT INTO Employee (E_ID, Name, Age, Address, Salary, Dep_ID) VALUES (102, 'Bob', 28, '456 Elm St', 60000, 2);
+INSERT INTO Employee (E_ID, Name, Age, Address, Salary, Dep_ID) VALUES (103, 'Charlie', 55, '789 Pine St', 90000, 1001);
+INSERT INTO Employee (E_ID, Name, Age, Address, Salary, Dep_ID) VALUES (104, 'Diana', 40, '101 Oak St', 75000, 4);
+INSERT INTO Employee (E_ID, Name, Age, Address, Salary, Dep_ID) VALUES (105, 'Eve', 32, '202 Maple St', 9000, 3);
+
+Select Name, Dep_ID from Department where City = 'Delhi';
+
+Select Name, Age from Employee where Dep_ID = 1001 and Salary > 10000;
+
+select Count(E_ID) from Employee Where Salary < 50000;
+
+select Name, Salary from Employee where age > 50;
+
+select Name, E_ID from Employee where Dep_ID = 1001;
+
+---drop table Employee;
+---drop table Department;
