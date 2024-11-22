@@ -1,0 +1,80 @@
+-- Create SUPPLIER table
+CREATE TABLE SUPPLIER (
+    SID INT PRIMARY KEY,            -- Supplier ID
+    SNAME VARCHAR(50),              -- Supplier name
+    STATUS INT,                     -- Supplier status
+    CITY VARCHAR(50)                -- Supplier city
+);
+
+-- Create PARTS table
+CREATE TABLE PARTS (
+    PID INT PRIMARY KEY,            -- Part ID
+    PNAME VARCHAR(50),              -- Part name
+    COLOUR VARCHAR(20),             -- Colour of the part
+    WEIGHT INT,                     -- Weight of the part
+    CITY VARCHAR(50)                -- City where the part is located
+);
+
+-- Create CATALOG table
+CREATE TABLE CATALOG (
+    SID INT,                        -- Supplier ID (foreign key)
+    PID INT,                        -- Part ID (foreign key)
+    QUANTITY INT,                   -- Quantity of parts supplied
+    COST FLOAT,                     -- Cost of the parts
+    PRIMARY KEY (SID, PID),         -- Composite primary key
+    FOREIGN KEY (SID) REFERENCES SUPPLIER(SID),
+    FOREIGN KEY (PID) REFERENCES PARTS(PID)
+);
+
+-- Insert data into SUPPLIER table
+INSERT INTO SUPPLIER (SID, SNAME, STATUS, CITY)
+VALUES
+(1, 'Supplier A', 10, 'Delhi'),
+(2, 'Supplier B', 15, 'Mumbai'),
+(3, 'Supplier C', 20, 'Chennai'),
+(4, 'Supplier D', 25, 'Delhi'),
+(5, 'Supplier E', 30, 'Mumbai');
+
+-- Insert data into PARTS table
+INSERT INTO PARTS (PID, PNAME, COLOUR, WEIGHT, CITY)
+VALUES
+(101, 'Part 1', 'Red', 120, 'Delhi'),
+(102, 'Part 2', 'Blue', 80, 'Mumbai'),
+(103, 'Part 3', 'Red', 200, 'Chennai'),
+(104, 'Part 4', 'Green', 150, 'Delhi'),
+(105, 'Part 5', 'Red', 90, 'Mumbai');
+
+-- Insert data into CATALOG table
+INSERT INTO CATALOG (SID, PID, QUANTITY, COST)
+VALUES
+(1, 101, 50, 500.0),
+(2, 102, 30, 300.0),
+(3, 103, 40, 400.0),
+(4, 104, 25, 250.0),
+(5, 105, 20, 200.0);
+
+-- Query a: Find the name of supplier for city "Delhi"
+SELECT SNAME
+FROM SUPPLIER
+WHERE CITY = 'Delhi';
+
+-- Query b: Find the number of suppliers who supply "Red" parts
+SELECT COUNT(DISTINCT C.SID) AS Num_Suppliers
+FROM CATALOG C
+JOIN PARTS P ON C.PID = P.PID
+WHERE P.COLOUR = 'Red';
+
+-- Query c: Sort the supplier table by name
+SELECT *
+FROM SUPPLIER
+ORDER BY SNAME;
+
+-- Query d: Display the SID, SNAME, and STATUS for the city "Mumbai"
+SELECT SID, SNAME, STATUS
+FROM SUPPLIER
+WHERE CITY = 'Mumbai';
+
+-- Query e: Display the PNAME of all the parts with weight above 100 grams
+SELECT PNAME
+FROM PARTS
+WHERE WEIGHT > 100;
