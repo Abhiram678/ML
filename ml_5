@@ -1,0 +1,71 @@
+-- Create STUDENT_DETAILS table
+CREATE TABLE STUDENT_DETAILS (
+    SNO INT PRIMARY KEY,           -- Unique student number
+    SNAME VARCHAR(50),             -- Student name
+    DOB DATE,                      -- Date of birth
+    ADDR1 VARCHAR(50),             -- Address line 1
+    ADDR2 VARCHAR(50),             -- Address line 2
+    CITY VARCHAR(50),              -- City
+    COUNTRY VARCHAR(50)            -- Country
+);
+
+-- Create MARK_DETAILS table
+CREATE TABLE MARK_DETAILS (
+    SNO INT PRIMARY KEY,           -- Foreign key to reference STUDENT_DETAILS(SNO)
+    MARKS1 INT,                    -- Marks for subject 1
+    MARKS2 INT,                    -- Marks for subject 2
+    MARKS3 INT,                    -- Marks for subject 3
+    TOTAL INT                      -- Total marks
+);
+
+-- Insert data into STUDENT_DETAILS table
+INSERT INTO STUDENT_DETAILS (SNO, SNAME, DOB, ADDR1, ADDR2, CITY, COUNTRY)
+VALUES
+(1, 'Alice', '2005-10-01', 'Street 1', 'Area A', 'Delhi', 'India'),
+(2, 'Bob', '2004-11-15', 'Street 2', 'Area B', 'Mumbai', 'India'),
+(3, 'Charlie', '2005-05-22', 'Street 3', 'Area C', 'Chennai', 'India'),
+(4, 'David', '2005-09-30', 'Street 4', 'Area D', 'Kolkata', 'India'),
+(5, 'Eve', '2004-08-10', 'Street 5', 'Area E', 'Hyderabad', 'India'),
+(6, 'Frank', '2005-06-18', 'Street 6', 'Area F', 'Delhi', 'India'),
+(7, 'Grace', '2005-01-25', 'Street 7', 'Area G', 'Pune', 'India'),
+(8, 'Hannah', '2005-07-14', 'Street 8', 'Area H', 'Delhi', 'India'),
+(9, 'Ivy', '2004-03-03', 'Street 9', 'Area I', 'Bangalore', 'India'),
+(10, 'Jack', '2005-12-12', 'Street 10', 'Area J', 'Lucknow', 'India');
+
+-- Insert data into MARK_DETAILS table
+INSERT INTO MARK_DETAILS (SNO, MARKS1, MARKS2, MARKS3, TOTAL)
+VALUES
+(1, 90, 85, 88, 263),
+(2, 78, 92, 80, 250),
+(3, 88, 79, 91, 258),
+(4, 95, 85, 89, 269),
+(5, 72, 89, 84, 245),
+(6, 81, 73, 89, 243),
+(7, 88, 90, 92, 270),
+(8, 85, 77, 80, 242),
+(9, 91, 86, 88, 265),
+(10, 79, 88, 87, 254);
+
+-- Query a: Display the student name who scored the highest total
+SELECT SNAME
+FROM STUDENT_DETAILS
+JOIN MARK_DETAILS ON STUDENT_DETAILS.SNO = MARK_DETAILS.SNO
+ORDER BY MARK_DETAILS.TOTAL DESC
+LIMIT 1;
+
+-- Query b: Display the MARKS1 of all the students
+SELECT SNO, MARKS1
+FROM MARK_DETAILS;
+
+-- Query c: Display the SNO of all students who scored greater than 50 in MARKS2
+SELECT SNO
+FROM MARK_DETAILS
+WHERE MARKS2 > 50;
+
+-- Query d: Alter the table MARK_DETAILS to add a column AVG with appropriate data type
+ALTER TABLE MARK_DETAILS
+ADD COLUMN AVG FLOAT;
+
+-- Query e: Drop the column COUNTRY from STUDENT_DETAILS
+ALTER TABLE STUDENT_DETAILS
+DROP COLUMN COUNTRY;
