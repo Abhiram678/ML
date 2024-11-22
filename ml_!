@@ -1,0 +1,62 @@
+-- Creating the TEACHER table to store teacher details
+CREATE TABLE TEACHER (
+    T_ID INT PRIMARY KEY,         -- Unique ID for each teacher
+    Department VARCHAR(50),       -- Department the teacher belongs to
+    Year_Of_Exp INT,              -- Years of experience of the teacher
+    Name VARCHAR(50)              -- Name of the teacher
+);
+-- Creating the SUBJECT_PAPER table to store subject details handled by teachers
+CREATE TABLE SUBJECT_PAPER (
+    Sub_ID INT PRIMARY KEY,       -- Unique ID for each subject
+    T_ID INT,                     -- Foreign key referencing T_ID in TEACHER table
+    Title_Of_Paper VARCHAR(50),   -- Title of the subject paper
+    Programme VARCHAR(50),        -- Programme under which the subject is taught (e.g., B.Tech, M.Tech)
+    Semester INT,                 -- Semester in which the subject is taught
+    FOREIGN KEY (T_ID) REFERENCES TEACHER(T_ID)  -- Establishing the foreign key constraint
+);
+-- Inserting records into TEACHER table
+INSERT INTO TEACHER (T_ID, Department, Year_Of_Exp, Name)
+VALUES
+(1001, 'Computer Science', 10, 'Alice'),        -- Teacher in Computer Science department
+(1002, 'ECE', 15, 'Bob'),                      -- Teacher in ECE department
+(1003, 'Mechanical', 12, 'Charlie'),           -- Teacher in Mechanical department
+(1004, 'Computer Science', 8, 'David'),        -- Another teacher in Computer Science department
+(1005, 'ECE', 18, 'Eve'),                      -- Senior teacher in ECE department
+(1006, 'Civil', 5, 'Frank'),                   -- Teacher in Civil department
+(1007, 'Computer Science', 20, 'Grace'),       -- Experienced teacher in Computer Science
+(1008, 'Computer Science', 7, 'Hannah'),       -- Teacher in Computer Science
+(1009, 'ECE', 9, 'Ivy'),                       -- Another teacher in ECE
+(1010, 'Mechanical', 25, 'Jack');              -- Senior teacher in Mechanical
+-- Inserting records into SUBJECT_PAPER table
+INSERT INTO SUBJECT_PAPER (Sub_ID, T_ID, Title_Of_Paper, Programme, Semester)
+VALUES
+(2001, 1001, 'Data Structures', 'B.Tech', 3),       -- Subject handled by T_ID = 1001
+(2002, 1002, 'Analog Circuits', 'B.Tech', 2),       -- Subject handled by T_ID = 1002
+(2003, 1003, 'Thermodynamics', 'B.Tech', 5),        -- Subject handled by T_ID = 1003
+(2004, 1004, 'Algorithms', 'B.Tech', 4),           -- Subject handled by T_ID = 1004
+(2005, 1005, 'Digital Design', 'B.Tech', 3),       -- Subject handled by T_ID = 1005
+(2006, 1006, 'Surveying', 'B.Tech', 1),            -- Subject handled by T_ID = 1006
+(2007, 1007, 'Machine Learning', 'M.Tech', 2),     -- Subject handled by T_ID = 1007
+(2008, 1008, 'Operating Systems', 'B.Tech', 4),    -- Subject handled by T_ID = 1008
+(2009, 1009, 'Signal Processing', 'B.Tech', 3),    -- Subject handled by T_ID = 1009
+(2010, 1010, 'Manufacturing', 'B.Tech', 6);        -- Subject handled by T_ID = 1010
+-- Fetching names and years of experience for teachers in Computer Science
+SELECT Name, Year_Of_Exp
+FROM TEACHER
+WHERE Department = 'Computer Science';
+-- Fetching names and departments of teachers with more than 15 years of experience
+SELECT Name, Department
+FROM TEACHER
+WHERE Year_Of_Exp > 15;
+-- Fetching title and semester for papers handled by teacher with T_ID = 1010
+SELECT Title_Of_Paper, Semester
+FROM SUBJECT_PAPER
+WHERE T_ID = 1010;
+-- Fetching programme and semester for the paper titled "C Programming"
+SELECT Programme, Semester
+FROM SUBJECT_PAPER
+WHERE Title_Of_Paper = 'C Programming';
+-- Fetching names of all teachers in the ECE department
+SELECT Name
+FROM TEACHER
+WHERE Department = 'ECE';
